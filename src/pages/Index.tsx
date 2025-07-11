@@ -1,8 +1,8 @@
 
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, Package, Palette, Shield, Clock, Star, ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
 
 const Index = () => {
   const features = [
@@ -65,12 +65,12 @@ const Index = () => {
               </span>
             </div>
             <div className="flex items-center space-x-4 slide-in-right">
-              <Link href="/login">
+              <Link to="/login">
                 <Button variant="ghost" className="text-slate-600 hover:text-slate-900 btn-modern">
                   Sign In
                 </Button>
               </Link>
-              <Link href="/register">
+              <Link to="/register">
                 <Button className="gradient-primary text-white shadow-modern btn-modern">
                   Get Started
                   <ArrowRight className="h-4 w-4 ml-2 icon-bounce" />
@@ -112,13 +112,13 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Link href="/register">
+              <Link to="/register">
                 <Button size="lg" className="gradient-primary text-white px-10 py-4 text-lg shadow-modern-lg btn-modern scale-in">
                   Start Printing Today
                   <ArrowRight className="h-5 w-5 ml-2 icon-bounce" />
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link to="/login">
                 <Button size="lg" variant="outline" className="px-10 py-4 text-lg bg-white/80 backdrop-blur-sm border-white/30 hover:bg-white/90 scale-in" style={{animationDelay: '200ms'}}>
                   Sign In to Portal
                 </Button>
@@ -181,7 +181,7 @@ const Index = () => {
               Join hundreds of satisfied customers who trust us with their DTF printing needs. 
               Experience professional quality with modern convenience.
             </p>
-            <Link href="/register">
+            <Link to="/register">
               <Button size="lg" variant="secondary" className="px-10 py-4 text-lg bg-white text-slate-900 hover:bg-white/90 shadow-modern-lg btn-modern scale-in">
                 Create Your Account
                 <ArrowRight className="h-5 w-5 ml-2 icon-bounce" />
