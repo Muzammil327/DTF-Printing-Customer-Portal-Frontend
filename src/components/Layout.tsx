@@ -32,10 +32,10 @@ export const Layout = ({ children, userType = "customer" }: LayoutProps) => {
 
   const customerNavItems = [
     { icon: Home, label: "Dashboard", path: "/dashboard" },
-    { icon: Upload, label: "Upload Artwork", path: "/upload" },
-    { icon: Package, label: "My Orders", path: "/orders" },
-    { icon: CreditCard, label: "Payments", path: "/payments" },
-    { icon: Bell, label: "Notifications", path: "/notifications" },
+    { icon: Upload, label: "Upload Artwork", path: "/dashboard/upload" },
+    { icon: Package, label: "My Orders", path: "/dashboard/orders" },
+    { icon: CreditCard, label: "Payments", path: "/dashboard/payments" },
+    { icon: Bell, label: "Notifications", path: "/dashboard/notifications" },
   ];
 
   const adminNavItems = [
