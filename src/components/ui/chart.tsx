@@ -67,7 +67,6 @@ ChartContainer.displayName = "Chart"
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, config]) => config.theme || config.color
   )
 
@@ -103,14 +102,26 @@ const ChartTooltip = RechartsPrimitive.Tooltip
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-    React.ComponentProps<"div"> & {
-      hideLabel?: boolean
-      hideIndicator?: boolean
-      indicator?: "line" | "dot" | "dashed"
-      nameKey?: string
-      labelKey?: string
-    }
+  React.ComponentProps<"div"> & {
+    active?: boolean
+    payload?: Array<any>
+    hideLabel?: boolean
+    hideIndicator?: boolean
+    indicator?: "line" | "dot" | "dashed"
+    nameKey?: string
+    labelKey?: string
+    label?: any
+    labelFormatter?: (label: any, payload?: any) => React.ReactNode
+    labelClassName?: string
+    formatter?: (
+      value: any,
+      name: any,
+      props: any,
+      index: number,
+      payload: any[]
+    ) => React.ReactNode
+    color?: string
+  }
 >(
   (
     {
@@ -184,10 +195,24 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {payload.map((item, index) => {
+          {payload.map((item: {
+            name?: string
+            value?: number
+            color?: string
+            payload?: { fill?: string }
+            dataKey?: string
+            label?: string
+            icon?: React.ComponentType
+            key?: {
+              payload?: {
+                fill?: string
+              }
+            }
+            [key: string]: any
+          }, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
-            const indicatorColor = color || item.payload.fill || item.color
+            const indicatorColor = color || (item?.payload && item.payload.fill) || item.color
 
             return (
               <div
@@ -198,7 +223,16 @@ const ChartTooltipContent = React.forwardRef<
                 )}
               >
                 {formatter && item?.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, item.payload)
+                  formatter(
+                    item.value,
+                    item.name,
+                    (() => {
+                      const { key, ...rest } = item
+                      return rest
+                    })(),
+                    index,
+                    Array.isArray(item.payload) ? item.payload : []
+                  )
                 ) : (
                   <>
                     {itemConfig?.icon ? (
@@ -260,18 +294,25 @@ const ChartLegend = RechartsPrimitive.Legend
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+    Pick<RechartsPrimitive.LegendProps, "verticalAlign"> & {
       hideIcon?: boolean
       nameKey?: string
+      payload?: Array<any>
     }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
+    {
+      className,
+      hideIcon = false,
+      payload = [],
+      verticalAlign = "bottom",
+      nameKey,
+    },
     ref
   ) => {
     const { config } = useChart()
 
-    if (!payload?.length) {
+    if (!Array.isArray(payload) || !payload.length) {
       return null
     }
 
