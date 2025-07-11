@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Edit, Trash2, DollarSign } from "lucide-react";
-import { PricingTier, CustomerPricing } from "@/types/pricing";
+import { PricingTier } from "@/types/pricing";
 import { customerPricingData } from "@/utils/pricing";
 
 interface PricingManagerProps {
